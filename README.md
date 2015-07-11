@@ -25,3 +25,40 @@ You can get the source code from my home page:
 
 	http://code.qtuba.com/studio/CPPSockets.html
 
+
+here is the udp  sample :
+
+try
+	{
+
+		//udp socket bind on 444 port
+		DatagramSocket  u(444);
+		
+		//sendto target 444 port
+		std::string s1="hello myself!";
+		DatagramPacket spk( s1.c_str(),s1.length() , SocketAddress("127.0.0.1",444)   ); 
+		u.send(spk);
+
+		while (1)
+		{
+
+				//receive  udp Packet
+				DatagramPacket pk ;
+				u.receive(pk);
+				printf("recv len[%d] %s \n",pk.getLength(),pk.getData());
+
+				//Sleep(1);
+
+				//echo self
+				DatagramPacket spk( pk.getData(), pk.getLength(),   pk.getSocketAddress() );
+				u.send(spk);
+
+			  
+		}
+
+	}
+	catch (exception  e)
+	{
+		printf("err %s",e.what());
+	}
+  
